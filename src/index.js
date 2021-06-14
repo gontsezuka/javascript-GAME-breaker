@@ -81,3 +81,15 @@ requestAnimationFrame(gameLoop);
   * between ball and paddle
   * 39 Minutes
   */
+
+
+ /**
+  * Loading Bricks
+  * 43 Minutes
+  */
+
+
+ /**
+  * Loading Levels 
+  * 46 Minutes
+  */
