@@ -2,6 +2,7 @@ import { Paddle } from './paddle.js';
 import { InputHandler } from './input.js';
 import { Ball } from './ball.js'
 import { Brick } from './brick.js';
+import { buildLevel, level1} from './levels.js';
 
 
 
@@ -17,13 +18,9 @@ export class Game {
     {
         this.paddle = new Paddle(this);
         this.ball = new Ball(this);
-        let bricks = [];
+        let bricks = buildLevel(this,level1);
 
-        for(let i=0; i<14; i++)
-        {
-            bricks.push(new Brick(this, {x:i*53, y:30}));
-        }
-
+        
         this.gameObjects = [this.ball, this.paddle, ...bricks];
         new InputHandler(this.paddle);
     }
@@ -33,6 +30,12 @@ export class Game {
     {
       
      this.gameObjects.forEach(object => object.update(deltaTime));
+
+     /**
+      * We are going to filter through all bricks not marked for deletion
+      * 
+      */
+        this.gameObjects = this.gameObjects.filter(object => !object.markedForDeletion)
 
     }
 

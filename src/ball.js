@@ -1,3 +1,6 @@
+import { detectCollision } from './collisionDetection.js';
+
+
 export class Ball {
 
     constructor(game)
@@ -9,12 +12,12 @@ export class Ball {
 
         this.position = {
             x:10,
-            y:10
+            y:400
         }
 
         this.speed = {
             x:2,
-            y:2
+            y:-2
         }
         this.size = 16;
     }
@@ -49,15 +52,7 @@ export class Ball {
          * CHECK COLLISION WITH PADDLE
          */
 
-         let bottomOfBall = this.position.y + this.size;
-
-         let topOfPaddle = this.game.paddle.position.y;
-
-         let leftSideOfPaddle = this.game.paddle.position.x;
-
-         let rightSideOfPaddle = this.game.paddle.position.x + this.game.paddle.width;
-
-         if(bottomOfBall >= topOfPaddle && this.position.x >= leftSideOfPaddle && this.position.x +this.size <= rightSideOfPaddle)
+          if(detectCollision(this,this.game.paddle))
           {
               this.speed.y = -this.speed.y;
               this.position.y = this.game.paddle.position.y - this.size;

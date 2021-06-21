@@ -93,3 +93,13 @@ requestAnimationFrame(gameLoop);
   * Loading Levels 
   * 46 Minutes
   */
+
+ /**
+  * Collision Detection With Bricks
+  * 51 Minutes
+  */
+
+ /**
+  * Pause Screen
+  * 56 Minutes
+  */
