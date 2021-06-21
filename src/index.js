@@ -25,7 +25,7 @@ ctx.fillStyle = '#00f';
 //let ball = new Ball(GAME_WIDTH,GAME_HEIGHT);
 let game = new Game(GAME_WIDTH,GAME_HEIGHT);
 
-game.start();
+//game.start();
 let lastTime = 0;
 
 function gameLoop(timeStamp)
@@ -102,4 +102,9 @@ requestAnimationFrame(gameLoop);
  /**
   * Pause Screen
   * 56 Minutes
+  */
+
+ /**
+  * Simple Start Menu
+  * 1 Hour 2 Minutes
   */

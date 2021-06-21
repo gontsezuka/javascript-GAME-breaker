@@ -17,7 +17,11 @@ export class InputHandler {
                     paddle.moveRight();
                 break;
                 case 27:
-                  game.togglePause();  //Escape Key
+                  game.togglePause(); 
+                  break; //Escape Key  
+                case 32:
+                    game.start();
+                break;
             }
         });
 
