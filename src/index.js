@@ -108,3 +108,15 @@ requestAnimationFrame(gameLoop);
   * Simple Start Menu
   * 1 Hour 2 Minutes
   */
+
+ /**
+  * GAME OVER
+  * 1 Hour 6 Minutes
+  * 
+  */
+
+ /**
+  * Completing Levels
+  * 1 Hour 10 Minutes
+  *
+  */

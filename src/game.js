@@ -2,7 +2,7 @@ import { Paddle } from './paddle.js';
 import { InputHandler } from './input.js';
 import { Ball } from './ball.js'
 import { Brick } from './brick.js';
-import { buildLevel, level1} from './levels.js';
+import { buildLevel, level1 ,level2} from './levels.js';
 
 
 
@@ -10,7 +10,8 @@ const GAMESTATE = {
     PAUSED: 0,
     RUNNING: 1,
     MENU: 2,
-    GAMEOVER: 3
+    GAMEOVER: 3,
+    NEWLEVEL: 4
 }
 
 export class Game {
@@ -26,47 +27,73 @@ export class Game {
         this.ball = new Ball(this);
         new InputHandler(this.paddle,this);
         this.gameObjects = [];
+        this.lives =3;
+        this.bricks = [];
+        this.levels= [level1, level2];
+        this.currentLevel = 0;
     }
 
     start()
     {
 
-        if(this.gamestate !== GAMESTATE.MENU)
+        if(this.gamestate !== GAMESTATE.MENU && this.gamestate !== GAMESTATE.NEWLEVEL)
         {
             return;
         }
-        
-        let bricks = buildLevel(this,level1);        
-        this.gameObjects = [this.ball, this.paddle, ...bricks];
+
+        this.bricks = buildLevel(this,this.levels[this.currentLevel]);    
+        this.ball.reset();    
+        this.gameObjects = [this.ball, this.paddle];
         this.gamestate = GAMESTATE.RUNNING;
     }
 
 
     update(deltaTime)
     {
+        if(this.lives ===0)
+        {
+            this.gamestate = GAMESTATE.GAMEOVER;
+        }
       
-         if(this.gamestate === GAMESTATE.PAUSED || this.gamestate === GAMESTATE.MENU )
+         if(this.gamestate === GAMESTATE.PAUSED || this.gamestate === GAMESTATE.MENU || this.gamestate === GAMESTATE.GAMEOVER)
          {
             return;
          }
 
 
-     this.gameObjects.forEach(object => object.update(deltaTime));
+         if(this.bricks.length ===0)
+         {
+             this.currentLevel++;
+             this.gamestate = GAMESTATE.NEWLEVEL;
+             this.start();
+         }
+
+
+
+         [...this.gameObjects, ...this.bricks].forEach(object => object.update(deltaTime));
+    // this.gameObjects.forEach(object => object.update(deltaTime));
 
      /**
       * We are going to filter through all bricks not marked for deletion
       * 
       */
-     this.gameObjects = this.gameObjects.filter(object => !object.markedForDeletion)
+     this.bricks = this.bricks.filter(object => !object.markedForDeletion)
 
     }
 
     draw(ctx)
     {
+
        // this.paddle.draw(ctx);
        // this.ball.draw(ctx);
 
-       this.gameObjects.forEach(object => object.draw(ctx));
+        ctx.font ="20px Arial";
+        ctx.fillStyle ="black";
+        ctx.textAlign="center";
+        ctx.fillText("Level: "+(this.currentLevel+1),60,20);
+        ctx.fillText("Lives: "+ this.lives ,750,20);
+       [...this.gameObjects, ...this.bricks].forEach(object => object.draw(ctx));
+      // this.gameObjects.forEach(object => object.draw(ctx));
 
        if(this.gamestate == GAMESTATE.PAUSED)
        {
@@ -89,10 +116,20 @@ export class Game {
         ctx.font = "30px Arial";
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
-        ctx.fillText("Press SPACEBAR TO START", this.gameWidth/2, this.gameHeight/2);
+        ctx.fillText("Press SPACEBAR to Start", this.gameWidth/2, this.gameHeight/2);
        }
 
+       if(this.gamestate == GAMESTATE.GAMEOVER)
+       {
+        ctx.rect(0,0,this.gameWidth,this.gameHeight);
+        ctx.fillStyle = "rgba(0,0,0,1)";
+        ctx.fill();
 
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.fillText("GAME OVER", this.gameWidth/2, this.gameHeight/2);
+       }
     }
 
 
