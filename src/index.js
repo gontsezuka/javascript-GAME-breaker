@@ -28,6 +28,15 @@ let game = new Game(GAME_WIDTH,GAME_HEIGHT);
 //game.start();
 let lastTime = 0;
 
+let name ="Gontse";
+let array_name = new Array(name.split(""));
+
+array_name.forEach(function(element) {
+    alert(element);
+});
+
+alert(array_name);
+
 function gameLoop(timeStamp)
 {
     let deltaTime = timeStamp - lastTime;
